@@ -10,8 +10,8 @@ public class ReceiveMsgTest {
 		AlertService alertService = ac.getBean(AlertService.class);
 		int i = 0;
 		do{
-			Spittle spittle  = alertService.receiveAndConvertSpittleAlert();
-			System.out.println("第"+i+"次接受消息"+spittle);
+			Spittle message  = alertService.receiveSpittleAlert();
+			System.out.println("第"+i+"次接受消息"+message);
 			i++;
 		}while(true);
 	}

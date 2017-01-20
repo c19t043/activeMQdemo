@@ -4,13 +4,14 @@ import java.io.Serializable;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
+import javax.jms.MessageListener;
 import javax.jms.Session;
 
 import org.springframework.jms.support.converter.MessageConversionException;
 import org.springframework.jms.support.converter.MessageConverter;
 
 @SuppressWarnings("serial")
-public class Spittle implements MessageConverter{
+public class Spittle implements MessageListener,Serializable{
 	private String msg;
 
 	public String getMsg() {
@@ -27,15 +28,7 @@ public class Spittle implements MessageConverter{
 	}
 
 	@Override
-	public Object fromMessage(Message message) throws JMSException,
-			MessageConversionException {
-		msg = (String) message.getObjectProperty("mes");
-		return this;
-	}
-
-	@Override
-	public Message toMessage(Object arg0, Session message) throws JMSException,
-			MessageConversionException {
-		return null;
+	public void onMessage(Message message) {
+		
 	}
 }

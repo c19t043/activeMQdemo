@@ -29,6 +29,7 @@
 
 	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"
 		p:brokerURL="tcp://localhost:61616"	
+		p:trustedPackages="demo.use_spring"
 	/>
 	<bean id="alertService" class="demo.use_spring.AlertServiceImpl"
 		p:jmsOperations-ref="jmsTemplate"
