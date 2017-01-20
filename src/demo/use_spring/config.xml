@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:amq="http://activemq.apache.org/schema/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://activemq.apache.org/schema/core
+						http://activemq.apache.org/schema/core/activemq-core.xsd
+						http://www.springframework.org/schema/jee
+						http://www.springframework.org/schema/jee/spring-jee.xsd
+						http://www.springframework.org/schema/jdbc
+						http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/aop
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx.xsd
+						http://www.springframework.org/schema/util
+						http://www.springframework.org/schema/util/spring-util.xsd"> 
+
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"
+		p:brokerURL="tcp://localhost:61616"	
+	/>
+	<bean id="alertService" class="demo.use_spring.AlertServiceImpl"
+		p:jmsOperations-ref="jmsTemplate"
+	>
+	</bean>
+	<bean id="queue" class="org.apache.activemq.command.ActiveMQQueue" p:physicalName="spittle.alert.queue"/>
+	<bean id="topic" class="org.apache.activemq.command.ActiveMQTopic" p:physicalName="spittle.alert.topic"></bean>
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate" 
+		c:connectionFactory-ref="connectionFactory"
+		p:defaultDestination-ref="queue"
+	/>
+<!-- 		<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate" 
+		c:connectionFactory-ref="connectionFactory"
+		p:defaultDestination-ref="queue"
+		p:messageConverter-ref="messageConverter"
+	/> -->
+	<!-- <bean id="messageConverter" class="org.springframework.jms.support.converter.MappingJackson2MessageConverter"></bean> -->
+<!-- 	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate" 
+		c:connectionFactory-ref="connectionFactory"
+		p:defaultDestination="spittle.alert.queue"
+	/> -->
+<!-- 	<amq:connectionFactory id="connectionFactory" brokerURL="tcp://localhost:61616" />
+	<amq:queue id="queue" physicalName="spittle.alert.queue" />
+	<amq:topic id="topic" physicalName="spittle.alert.topic" /> -->
+</beans>	
