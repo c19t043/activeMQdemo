@@ -4,6 +4,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsOperations;
@@ -14,42 +15,42 @@ public class AlertServiceImpl implements AlertService {
 
 	private JmsOperations jmsOperations;
 	@Override
-	public void sendDefaultSpittleAlert(final Spittle spittle) {
+	public void sendDefaultSpittleAlert(final String message) {
 		jmsOperations.send(new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
-				return session.createObjectMessage(spittle);
+				return session.createObjectMessage(message);
 			}
 		});
 	}
 	@Override
-	public void sendSpittleAlert(final Spittle spittle) {
+	public void sendSpittleAlert(final String message) {
 		jmsOperations.send("spittle.alert.queue",new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
-				return session.createObjectMessage(spittle);
+				return session.createObjectMessage(message);
 			}
 		});
 	}
 	@Override
-	public void sendAndConvertDefaultSpittleAlert(Spittle spittle) {
-		jmsOperations.convertAndSend(spittle);
+	public void sendAndConvertDefaultSpittleAlert(String message) {
+		jmsOperations.convertAndSend(message);
 	}
 	@Autowired
 	public void setJmsOperations(JmsOperations jmsOperations) {
 		this.jmsOperations = jmsOperations;
 	}
 	@Override
-	public Spittle receiveSpittleAlert() {
-		ObjectMessage objectMessage = (ObjectMessage) jmsOperations.receive();
+	public String receiveSpittleAlert() {
+		Message receive = jmsOperations.receive();
 		try {
-			return (Spittle) objectMessage.getObject();
+			return ((TextMessage)receive).getText();
 		} catch (JMSException e) {
 			throw JmsUtils.convertJmsAccessException(e);
 		}
 	}
 	@Override
-	public Spittle receiveAndConvertSpittleAlert() {
-		return (Spittle) jmsOperations.receiveAndConvert();
+	public String receiveAndConvertSpittleAlert() {
+		return (String) jmsOperations.receiveAndConvert();
 	}
 }

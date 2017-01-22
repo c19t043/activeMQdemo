@@ -13,14 +13,13 @@ public class SendMsgTest {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		int i = 0;
 		do{
-			String time = df.format(new Date());
-			String content = "第"+i+"次发送消息"+time;
-			Spittle spittle = new Spittle();
-			spittle.setMsg(content);
-			alertService.sendAndConvertDefaultSpittleAlert(spittle);
+			//String time = df.format(new Date());
+			//String content = "第"+i+"次发送消息"+time;
+			String content = "第"+i+"次发送消息{'key':value1,'key2':value2}";
+			alertService.sendAndConvertDefaultSpittleAlert(content);
 			System.out.println(content);
 			Thread.sleep(1000);
 			i++;
-		}while(true);
+		}while(i<5);
 	}
 }

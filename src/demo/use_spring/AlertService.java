@@ -1,9 +1,9 @@
 package demo.use_spring;
 
 public interface AlertService {
-	void sendSpittleAlert(Spittle spittle);
-	void sendDefaultSpittleAlert(Spittle spittle);
-	void sendAndConvertDefaultSpittleAlert(Spittle spittle);
-	Spittle receiveAndConvertSpittleAlert();
-	Spittle receiveSpittleAlert();
+	void sendSpittleAlert(String message);
+	void sendDefaultSpittleAlert(String message);
+	void sendAndConvertDefaultSpittleAlert(String message);
+	String receiveAndConvertSpittleAlert();
+	String receiveSpittleAlert();
 }	
